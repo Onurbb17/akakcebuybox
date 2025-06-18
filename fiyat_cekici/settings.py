@@ -127,3 +127,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+RECAPTCHA_PUBLIC_KEY = '6Lc5HGUrAAAAAKVBGJ5NwqYvMaBKlzYXb1jUFDx7'
+RECAPTCHA_PRIVATE_KEY = '6Lc5HGUrAAAAANPnVCbOykt0mUlasMytnXIaMk-k'

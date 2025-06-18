@@ -10,6 +10,7 @@ from openpyxl import load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment
 import tempfile
 from django.http import FileResponse
+from ratelimit.decorators import ratelimit
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -223,6 +224,7 @@ def profile(request):
     }
     return render(request, "profile.html", context)
 
+@ratelimit(key='user', rate='10/m', block=True)
 @login_required
 def fiyat_cek(request):
     kategoriler = Kategori.objects.filter(user=request.user)
