@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .models import Kategori, Eslesme, Bildirim
-from .forms import KategoriForm, EslesmeForm. CustomUserCreationForm
+from .forms import KategoriForm, EslesmeForm, CustomUserCreationForm
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment
