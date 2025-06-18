@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-8p2&$%@yi2hw+0a5j^h@(nmh57&5(u4gj0h@vw2a27v$&npjxp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["akakce-buybox.onrender.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
