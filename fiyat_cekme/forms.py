@@ -1,9 +1,7 @@
 from django import forms
-from .models import Kategori, Eslesme
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV2Checkbox
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from captcha.fields import ReCaptchaField
 
 class KategoriForm(forms.ModelForm):
     class Meta:
@@ -20,8 +18,7 @@ class EslesmeForm(forms.ModelForm):
         }
 
 class CustomUserCreationForm(UserCreationForm):
-    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
-
+    captcha = ReCaptchaField()
     class Meta:
         model = User
-        fields = ("username", "password1", "password2")
+        fields = ["username", "password1", "password2", "captcha"]
