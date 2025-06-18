@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .models import Kategori, Eslesme, Bildirim
-from .forms import KategoriForm, EslesmeForm
+from .forms import KategoriForm, EslesmeForm. CustomUserCreationForm
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment
@@ -73,13 +73,13 @@ def register(request):
     if request.user.is_authenticated:
         return redirect('profile')
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Kayıt başarılı! Giriş yapabilirsiniz.")
             return redirect('login')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, "register.html", {"form": form})
 
 def login_view(request):
