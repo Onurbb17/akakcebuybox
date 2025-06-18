@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Bildirimler</h2>
+<form method="post">{% csrf_token %}
+    <button type="submit">Tümünü Okundu Yap</button>
+</form>
+<ul>
+    {% for b in bildirimler %}
+        <li style="{% if not b.okundu %}font-weight:bold;{% endif %}">
+            {{ b.olusturma_zamani|date:"d.m.Y H:i" }} — {{ b.mesaj }}
+            {% if not b.okundu %}<span style="color:#ff0;">●</span>{% endif %}
+        </li>
+    {% empty %}
+        <li>Hiç bildiriminiz yok.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

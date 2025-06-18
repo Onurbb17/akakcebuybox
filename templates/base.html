@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Fiyat Çekici{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+            font-family: 'Segoe UI', 'Montserrat', Arial, sans-serif;
+            margin: 0;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 16px 32px;
+            background: rgba(38, 14, 97, 0.8);
+            display: flex;
+            justify-content: flex-end;
+            gap: 24px;
+            z-index: 100;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.07em;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #ffeb3b;
+        }
+        .container {
+            background: rgba(255,255,255, 0.93);
+            border-radius: 18px;
+            box-shadow: 0 6px 32px 0 rgba(80,0,160,.13);
+            padding: 42px 36px 32px 36px;
+            min-width: 340px;
+            max-width: 400px;
+            width: 100%;
+            margin: 90px auto 36px auto;
+            /* nav ile çakışmaması için üstte boşluk */
+        }
+        h2 {
+            text-align: center;
+            color: #8e2de2;
+            margin-bottom: 32px;
+            font-size: 2.2em;
+            letter-spacing: 1px;
+        }
+        label {
+            color: #4a00e0;
+            font-weight: bold;
+        }
+        input, button {
+            font-family: inherit;
+            font-size: 1em;
+            outline: none;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        input[type="text"], input[type="password"] {
+            padding: 10px 12px;
+            border-radius: 7px;
+            border: 1.5px solid #bfa9e6;
+            background: #f8f6ff;
+            transition: border .2s;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #8e2de2;
+        }
+        button {
+            background: linear-gradient(90deg, #8e2de2, #4a00e0);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 12px 0;
+            font-weight: bold;
+            letter-spacing: .5px;
+            cursor: pointer;
+            margin-top: 8px;
+            box-shadow: 0 2px 10px rgba(142,45,226,.07);
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+        }
+        button:hover, button:focus {
+            background: linear-gradient(90deg, #4a00e0, #8e2de2);
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 4px 18px 2px rgba(142,45,226,.16);
+        }
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 21px;
+        }
+        .links a {
+            text-decoration: none;
+            color: #6a85f1;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .links a:hover {
+            color: #4a00e0;
+            text-decoration: underline;
+        }
+        .logout-form {
+            text-align: right;
+            margin-top: 12px;
+        }
+        .alert {
+            background: #ffe8f8;
+            border: 1px solid #ffa7e0;
+            border-radius: 7px;
+            color: #d12ba6;
+            padding: 10px 14px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .license-alert {
+            background: #ffe8f8;
+            border: 1px solid #ffa7e0;
+            border-radius: 7px;
+            color: #d12ba6;
+            padding: 10px 14px;
+            margin: 80px auto 0 auto;
+            text-align: center;
+            max-width: 420px;
+            font-size: 1em;
+        }
+        @media (max-width: 480px) {
+            .container {
+                min-width: unset;
+                max-width: 98vw;
+                padding: 22px 6vw 18px 6vw;
+            }
+            nav {
+                padding: 10px 2vw;
+            }
+            h2 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <nav>
+        <a href="{% url 'logout' %}">Çıkış</a>
+    </nav>
+
+    {% if user.is_authenticated and user.userprofile %}
+        <div class="license-alert">
+            Lisans Bitiş Tarihi: {{ user.userprofile.license_end|date:"d.m.Y" }}<br>
+            Kalan Gün: {{ user.userprofile.days_left }}
+        </div>
+    {% endif %}
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

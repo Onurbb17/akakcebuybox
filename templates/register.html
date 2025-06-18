@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+.register-container {
+    background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
+    max-width: 410px;
+    margin: 60px auto 0 auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 32px 0 rgba(76,42,162,0.15);
+    padding: 36px 32px 32px 32px;
+}
+.register-container h2 {
+    color: #fff;
+    text-align: center;
+    font-family: 'Segoe UI Black',sans-serif;
+    margin-bottom: 28px;
+}
+.register-form label {
+    color: #ede7f6;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.register-form input {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 3px;
+    border: 1.5px solid #c3a6ff;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    background: #fcf6ff;
+    font-size: 15px;
+}
+.register-form input:focus {
+    outline: none;
+    border-color: #8e2de2;
+}
+.register-form button {
+    width: 100%;
+    background: #6a85f1;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    padding: 12px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    transition: background 0.2s;
+    letter-spacing: 1px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 6px 0 rgba(76,42,162,0.09);
+    cursor: pointer;
+}
+.register-form button:hover {
+    background: #8e2de2;
+}
+.register-links {
+    text-align: center;
+    margin-top: 10px;
+}
+.register-links a {
+    color: #fff;
+    text-decoration: underline;
+    font-size: 15px;
+    margin-left: 6px;
+}
+</style>
+<div class="register-container">
+    <h2>Kayıt Ol</h2>
+    <form method="post" class="register-form" autocomplete="off">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <label for="id_username">Kullanıcı Adı</label>
+        {{ form.username }}
+        <label for="id_password1">Şifre</label>
+        {{ form.password1 }}
+        <label for="id_password2">Şifre (Tekrar)</label>
+        {{ form.password2 }}
+
+        <button type="submit">Kayıt Ol</button>
+    </form>
+    <div class="register-links">
+        Zaten hesabın var mı?
+        <a href="{% url 'login' %}">Giriş Yap</a>
+    </div>
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <p style="color: #fff; text-align:center;">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

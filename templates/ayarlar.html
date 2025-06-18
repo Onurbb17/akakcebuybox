@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+.settings-row {
+    display: flex;
+    gap: 28px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin: 36px auto 0 auto;
+    max-width: 1100px;
+}
+.settings-card {
+    background: linear-gradient(90deg, #8e2de2 0%, #4a00e0 100%);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(60,30,120,0.14);
+    padding: 32px 30px 30px 30px;
+    min-width: 320px;
+    max-width: 420px;
+    width: 100%;
+    color: #fff;
+    margin-bottom: 32px;
+    flex:1 1 320px;
+}
+.settings-card h3 {
+    font-size: 1.32rem;
+    font-weight: bold;
+    margin-bottom: 22px;
+    color: #ffe;
+}
+.settings-card label {
+    color: #ffdc60;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    display:block;
+}
+.settings-card input, .settings-card select {
+    width: 100%;
+    padding: 8px 11px;
+    border-radius: 7px;
+    border: 1px solid #eee2;
+    background: #fff;
+    color: #23235a;
+    margin-bottom: 14px;
+    font-size: 1rem;
+}
+.settings-card button {
+    background: #ffdc60;
+    color: #4a00e0;
+    border: none;
+    border-radius: 7px;
+    padding: 10px 0;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 8px;
+}
+.settings-card button:hover {
+    background: #fff;
+    color: #8e2de2;
+}
+.settings-license {
+    background: rgba(42,20,100,0.27);
+    border-radius: 8px;
+    padding: 13px 17px;
+    color: #ffe;
+    font-size: 1.07em;
+    margin-bottom: 12px;
+}
+.settings-danger-btn {
+    background: #ff4f4f;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 0;
+    width: 100%;
+    font-weight: bold;
+    margin-top: 11px;
+}
+.settings-danger-btn:hover { background: #c00; }
+
+@media (max-width: 900px) {
+    .settings-row { flex-direction: column; align-items: stretch; }
+    .settings-card { max-width: 100%; }
+}
+</style>
+<div class="settings-row">
+    <form method="post" class="settings-card">
+        {% csrf_token %}
+        <h3>Kullanıcı Bilgileri</h3>
+        <label>Kullanıcı Adı</label>
+        <input type="text" value="{{ user.username }}" disabled>
+        <label>E-posta</label>
+        <input type="email" name="email" value="{{ user.email }}">
+        <button name="update_email" type="submit">E-posta Güncelle</button>
+    </form>
+
+    <form method="post" class="settings-card">
+        {% csrf_token %}
+        <h3>Görünüm ve Tercihler</h3>
+        <label>Tema</label>
+        <select name="theme">
+            <option value="light" {% if theme == "light" %}selected{% endif %}>Açık</option>
+            <option value="dark" {% if theme == "dark" %}selected{% endif %}>Koyu</option>
+        </select>
+        <button name="update_theme" type="submit">Tema Kaydet</button>
+        <label style="margin-top:18px;">Varsayılan Kategori</label>
+        <select name="default_category">
+            <option value="">Seçiniz</option>
+            {% for kategori in kategoriler %}
+            <option value="{{ kategori.id }}" {% if kategori.id == default_category_id %}selected{% endif %}>{{ kategori.isim }}</option>
+            {% endfor %}
+        </select>
+        <button name="update_default_category" type="submit">Varsayılan Kategoriyi Güncelle</button>
+    </form>
+
+    <div class="settings-card">
+        <h3>Lisans ve Hesap</h3>
+        <div class="settings-license">
+            <b>Lisans Başlangıç:</b> {{ profile.license_start|date:"d.m.Y" }}<br>
+            <b>Lisans Bitiş:</b> {{ profile.license_end|date:"d.m.Y" }}<br>
+            <b>Kalan Gün:</b> {{ profile.days_left }}
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <button name="export_data" type="submit">Verilerimi İndir</button>
+        </form>
+        <form method="post">
+            {% csrf_token %}
+            <button name="delete_account" type="submit" class="settings-danger-btn" onclick="return confirm('HESABINIZ KALICI OLARAK SİLİNECEK! Emin misiniz?')">Hesabımı Sil</button>
+        </form>
+        <a href="{% url 'password_change' %}" style="color:#ffe;display:block;text-align:center;margin-top:24px;text-decoration:underline;">Şifre Değiştir</a>
+    </div>
+</div>
+{% if messages %}
+    <div style="max-width:600px;margin:24px auto;">
+        {% for message in messages %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

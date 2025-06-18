@@ -1,0 +1,538 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiyat Çekici | Ana Sayfa</title>
+    <!-- FAVICON -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><rect rx='7' width='32' height='32' fill='%238e2de2'/><text x='7' y='23' font-size='18' font-family='Arial' fill='white' font-weight='bold'>FÇ</text></svg>">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e1633 0%, #2b185a 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        /* YENİ NAVBAR TASARIMI */
+        .custom-navbar {
+            background: linear-gradient(90deg, #8e2de2 10%, #4a00e0 70%);
+            box-shadow: 0 2px 16px #5327b644;
+            padding: 0.5rem 0;
+        }
+        .navbar-logo-circle {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #ffdc60 10%, #7c34ae 90%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 13px;
+            box-shadow: 0 3px 18px #ffdc6033;
+        }
+        .navbar-logo-text {
+            font-size: 1.38rem;
+            font-weight: 900;
+            color: #7c34ae;
+            font-family: 'Poppins', Arial, sans-serif;
+            letter-spacing: 1px;
+            user-select: none;
+        }
+        .navbar-brand-title {
+            font-size: 1.62rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 1.6px;
+            margin-right: 20px;
+            font-family: 'Dancing Script', cursive;
+            user-select: none;
+        }
+        .custom-navbar .nav-link {
+            color: #fff !important;
+            font-weight: 600;
+            font-size: 1.11rem;
+            letter-spacing: 0.5px;
+            margin-left: 15px;
+            margin-right: 6px;
+            transition: color 0.2s;
+        }
+        .custom-navbar .nav-link:hover { color: #ffdc60 !important; }
+        .custom-navbar .btn-navbar {
+            background: linear-gradient(90deg, #ffdc60 20%, #7c34ae 90%);
+            color: #2b185a;
+            font-weight: 700;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 8px 25px;
+            font-size: 1rem;
+            margin-left: 16px;
+            box-shadow: 0 2px 12px #ffdc6066;
+            transition: background 0.18s, color 0.18s, box-shadow 0.2s;
+        }
+        .custom-navbar .btn-navbar:hover {
+            background: linear-gradient(90deg, #7c34ae 30%, #ffdc60 90%);
+            color: #fff;
+            box-shadow: 0 4px 22px #7c34ae44;
+        }
+        @media (max-width: 700px) {
+            .navbar-logo-circle { width: 34px; height: 34px; }
+            .navbar-logo-text { font-size: 1.02rem; }
+            .navbar-brand-title { font-size: 1.1rem; }
+        }
+
+        .section-title {
+            font-size:2.2rem;
+            font-weight:900;
+            text-align:center;
+            margin-bottom:32px;
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(90deg, #ffdc60 20%, #fff 60%, #7c34ae 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1.2px;
+            text-shadow: 0 2px 10px #2b185a90;
+        }
+        /* Galeri */
+        .gallery-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            justify-content: center;
+            margin-bottom: 26px;
+        }
+        .gallery-card {
+            background: #f7f2ff;
+            border-radius: 1.1rem;
+            box-shadow: 0 1px 10px #c8bdfa33;
+            padding: 18px 12px 14px 12px;
+            width: 210px;
+            text-align: center;
+            transition: transform 0.14s, box-shadow 0.18s;
+            cursor: pointer;
+            position: relative;
+        }
+        .gallery-card:hover {
+            transform: scale(1.06);
+            box-shadow: 0 6px 32px #7c34ae66;
+            border: 2px solid #7c34ae;
+        }
+        .gallery-card img {
+            width: 160px;
+            height: 88px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #fff;
+            margin-bottom: 13px;
+            box-shadow: 0 2px 14px #b7a6cb33;
+        }
+        .gallery-card .caption {
+            font-size: 1.08rem;
+            color: #6f2da6;
+            font-weight: 600;
+            min-height: 32px;
+        }
+        @media (max-width: 700px) {
+            .gallery-row { gap: 12px; }
+            .gallery-card { width: 44vw; max-width: 210px; }
+            .gallery-card img { width: 99%; }
+        }
+        /* İstatistikler */
+        .statistic-card {
+            background: #322c47;
+            border-radius: 1.2rem;
+            color: #ffd867;
+            padding: 24px 8px 14px 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 18px #7c34ae33;
+        }
+        .statistic-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .statistic-label {
+            color: #f3eafe;
+            font-size: 1.08rem;
+            font-weight: 400;
+            margin-top: 6px;
+        }
+        /* Özellik kartları */
+        .feature-card {
+            background: linear-gradient(120deg, #27143b 40%, #2b185a 100%);
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 32px #7c34ae24;
+            padding: 36px 22px 28px 22px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: transform 0.16s, box-shadow 0.2s;
+            min-height: 240px;
+            color: #fff;
+        }
+        .feature-card:hover { transform: translateY(-4px) scale(1.04); box-shadow:0 8px 36px #ffdc6012;}
+        .feature-icon {
+            font-size:2.7rem;
+            background: linear-gradient(90deg, #ffdc60 30%, #7c34ae 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .feature-card .fw-bold {
+            font-size: 1.19rem;
+            font-family: 'Poppins', Arial, sans-serif;
+            color: #ffdc60;
+            background: linear-gradient(90deg, #ffdc60 20%, #fff 60%, #7c34ae 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+        }
+        .feature-card .text-muted {
+            color: #efeefd !important;
+            font-size: 1.07rem;
+            opacity: 0.92;
+            margin-top: 8px;
+            margin-bottom: 3px;
+        }
+        /* SSS */
+        .faq-item {
+            background: linear-gradient(120deg,#2b185a 60%,#27143b 100%);
+            border-radius:14px;
+            margin-bottom:18px;
+            box-shadow: 0 3px 16px #7c34ae22;
+            color: #fff;
+        }
+        .faq-question {
+            font-weight:900;
+            font-size:1.18rem;
+            color: #fff !important;
+            font-family: 'Poppins', Arial, sans-serif;
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: unset !important;
+            background-clip: unset !important;
+        }
+        .accordion-button:not(.collapsed) { color: #ffdc60; background: #2b185a; font-size:1.16rem; }
+        .accordion-button { font-family: 'Poppins', Arial, sans-serif; color: #fff; background: #27143b; font-size:1.13rem;}
+        .accordion-body {
+            background: #201242;
+            color: #ffe;
+            font-size: 1.07rem;
+            font-family: 'Poppins', Arial, sans-serif;
+            border-radius: 0 0 14px 14px;
+        }
+        /* Footer */
+        .footer {
+            background: linear-gradient(90deg, #27143b 0%, #2b185a 100%);
+            color: #fff;
+            padding: 38px 0 30px 0;
+            font-size: 1.09rem;
+        }
+        .footer .brand-title { font-size: 2rem;}
+        /* Responsive */
+        @media (max-width: 991px) {
+            .hero-title { font-size: 2.1rem;}
+        }
+        @media (max-width: 700px) {
+            .feature-card { min-height:unset;}
+            .section-title { font-size:1.2rem;}
+        }
+        @media (max-width: 600px) {
+            .brand-title { font-size:1.2rem;}
+        }
+    </style>
+</head>
+<body>
+    <!-- YENİ HEADER / NAVBAR -->
+    <nav class="navbar custom-navbar navbar-expand-lg">
+        <div class="container">
+            <a class="d-flex align-items-center text-decoration-none" href="#">
+                <span class="navbar-logo-circle">
+                    <span class="navbar-logo-text">FÇ</span>
+                </span>
+                <span class="navbar-brand-title">Fiyat Çekici</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Menüyü Aç">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse flex-grow-0" id="navbarToggler">
+                <ul class="navbar-nav align-items-center mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Özellikler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">SSS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-navbar" href="{% url 'register' %}">Kayıt Ol</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-navbar" href="{% url 'login' %}">Giriş Yap</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero-section position-relative mb-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 pb-4 pb-lg-0">
+                    <div class="brand-title mb-1">Akakçe Fiyat Çekici</div>
+                    <div class="hero-title">Rakip Fiyatlarını <span style="color:#ffdc60;">Otomatik</span> Takip Et!</div>
+                    <div class="hero-desc">
+                        Rakip mağaza fiyatlarını tek tuşla topla, Excel'e aktar, <b>kârını anında yükselt!</b>
+                        <br>Gerçekten hızlı, gerçekten kolay.
+                    </div>
+                    <a href="{% url 'register' %}" class="btn btn-gradient me-2 mb-2">Lisans Satın Al</a>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="{% static 'img/panel1.png' %}" alt="Panel Demo" class="img-fluid rounded shadow-lg mt-3 mt-lg-0" style="max-width:350px; max-height:230px; box-shadow: 0 10px 40px #8e2de244;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANELDEN GERÇEK GÖRÜNTÜLER (Galeri) -->
+    <section class="container mb-5">
+        <div class="section-title">Panelden Gerçek Görüntüler</div>
+        <div class="gallery-row">
+            <div class="gallery-card" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showModalImg('{% static 'img/panel1.png' %}', 'Panel Ana Ekran')">
+                <img src="{% static 'img/panel1.png' %}" alt="Panel Ana Ekran">
+                <div class="caption">Panel Ana Ekran</div>
+            </div>
+            <div class="gallery-card" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showModalImg('{% static 'img/kategori_ekle.png' %}', 'Kategori Ekle')">
+                <img src="{% static 'img/kategori_ekle.png' %}" alt="Kategori Ekle">
+                <div class="caption">Kategori Ekle</div>
+            </div>
+            <div class="gallery-card" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showModalImg('{% static 'img/fiyat_cek.png' %}', 'Fiyat Çekme')">
+                <img src="{% static 'img/fiyat_cek.png' %}" alt="Fiyat Çekme">
+                <div class="caption">Fiyat Çekme</div>
+            </div>
+            <div class="gallery-card" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showModalImg('{% static 'img/excel_ornek.png' %}', 'Excel Çıktısı')">
+                <img src="{% static 'img/excel_ornek.png' %}" alt="Excel Çıktısı">
+                <div class="caption">Excel Çıktısı</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for image preview -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="background: #232851;">
+          <div class="modal-header border-0">
+            <h5 class="modal-title text-warning" id="imageModalLabel"></h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body d-flex justify-content-center align-items-center" style="min-height:370px;">
+            <img id="modalImage" src="" alt="" class="img-fluid rounded shadow" style="max-height:400px; background: #fff;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+        function showModalImg(imgSrc, caption) {
+          document.getElementById('modalImage').src = imgSrc;
+          document.getElementById('imageModalLabel').textContent = caption;
+        }
+    </script>
+
+    <!-- İSTATİSTİKLER -->
+    <section class="container py-4">
+        <div class="row text-center justify-content-center">
+            <div class="col-6 col-md-3">
+                <div class="statistic-card">
+                    <div class="statistic-value">1.200+</div>
+                    <div class="statistic-label">Aktif Müşteri</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="statistic-card">
+                    <div class="statistic-value">98%</div>
+                    <div class="statistic-label">Müşteri Memnuniyeti</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="statistic-card">
+                    <div class="statistic-value">1M+</div>
+                    <div class="statistic-label">Fiyat Karşılaştırıldı</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="statistic-card">
+                    <div class="statistic-value">7/24</div>
+                    <div class="statistic-label">Canlı Destek</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ÖZELLİKLER -->
+    <section class="container pb-5" id="features">
+        <div class="section-title">Başlıca Özellikler</div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon mb-2">⚡</div>
+                    <div class="fw-bold mb-1">1 Tıkla Fiyat Karşılaştır</div>
+                    <div class="text-muted">Akakçe ve sitenizden ürün fiyatlarını saniyeler içinde Excel'e aktarın.</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon mb-2">🛒</div>
+                    <div class="fw-bold mb-1">Toplu Ürün Yükleme</div>
+                    <div class="text-muted">Excel/CSV ile birden fazla ürünü tek seferde ekleyin.</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon mb-2">🔒</div>
+                    <div class="fw-bold mb-1">Veri Güvenliği</div>
+                    <div class="text-muted">Tüm bilgileriniz şifreli, yalnızca size özel.</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon mb-2">📈</div>
+                    <div class="fw-bold mb-1">Kârlılığınızı Artırın</div>
+                    <div class="text-muted">Rakip fiyatlarını güncel takip ederek piyasa avantajı kazanın.</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon mb-2">💡</div>
+                    <div class="fw-bold mb-1">Kullanıcı Dostu Panel</div>
+                    <div class="text-muted">Modern, kolay anlaşılır arayüz ile tüm işlemler elinizin altında.</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon mb-2">💬</div>
+                    <div class="fw-bold mb-1">7/24 Canlı Destek</div>
+                    <div class="text-muted">Her sorunuzda teknik destek ekibimiz yanınızda.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SSS - Sıkça Sorulan Sorular -->
+    <section class="container pb-5" id="faq">
+        <div class="section-title text-center">Sıkça Sorulan Sorular</div>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item faq-item">
+                <h2 class="accordion-header" id="faq1">
+                    <button class="accordion-button faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#ans1" aria-expanded="true" aria-controls="ans1">
+                        <span class="me-2">🤔</span> Programı kullanmak için teknik bilgi gerekir mi?
+                    </button>
+                </h2>
+                <div id="ans1" class="accordion-collapse collapse show" aria-labelledby="faq1" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <b>Hayır.</b> Arayüzümüz tamamen kullanıcı dostudur, herkes kolayca kullanabilir. Sürükle-bırak, otomatik yükleme ve canlı yardım gibi pratik özellikler sunuyoruz.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item faq-item">
+                <h2 class="accordion-header" id="faq2">
+                    <button class="accordion-button collapsed faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#ans2" aria-expanded="false" aria-controls="ans2">
+                        <span class="me-2">⏱️</span> Fiyatlar hangi sıklıkla güncellenir?
+                    </button>
+                </h2>
+                <div id="ans2" class="accordion-collapse collapse" aria-labelledby="faq2" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        İsterseniz <b>her gün</b>, <b>her saat</b> ya da istediğiniz anda "Fiyatları Çek" diyerek güncel verileri alabilirsiniz. Otomatik fiyat güncelleme entegrasyonu için <a href="mailto:destek@seninsiten.com">iletişime geçin</a>.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item faq-item">
+                <h2 class="accordion-header" id="faq3">
+                    <button class="accordion-button collapsed faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#ans3" aria-expanded="false" aria-controls="ans3">
+                        <span class="me-2">📥</span> Toplu ürün yüklerken nelere dikkat etmeliyim?
+                    </button>
+                </h2>
+                <div id="ans3" class="accordion-collapse collapse" aria-labelledby="faq3" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Excel veya CSV dosyanızda <b>Akakçe Linki</b> ve <b>Site Linki</b> başlıklarının olması yeterli. Sütunlar arasında fazladan bilgi olsa da sistem sadece bu iki alanı kullanır.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item faq-item">
+                <h2 class="accordion-header" id="faq4">
+                    <button class="accordion-button collapsed faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#ans4" aria-expanded="false" aria-controls="ans4">
+                        <span class="me-2">🌐</span> Hangi tarayıcıları ve cihazları destekliyor?
+                    </button>
+                </h2>
+                <div id="ans4" class="accordion-collapse collapse" aria-labelledby="faq4" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Tüm modern masaüstü ve mobil tarayıcılarda <b>tam uyumludur</b>. Ayrıca uygulamamız responsive olduğu için cep telefonu ve tabletlerde de rahatça kullanılır.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item faq-item">
+                <h2 class="accordion-header" id="faq5">
+                    <button class="accordion-button collapsed faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#ans5" aria-expanded="false" aria-controls="ans5">
+                        <span class="me-2">💬</span> Destek nasıl alabilirim?
+                    </button>
+                </h2>
+                <div id="ans5" class="accordion-collapse collapse" aria-labelledby="faq5" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        7/24 <b>canlı destek</b>, e-posta ve WhatsApp hattımız ile her zaman yanınızdayız. Ayrıca <b>video anlatımlar</b> ve <b>dokümantasyon</b> ile de her adımda sizi destekliyoruz.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item faq-item">
+                <h2 class="accordion-header" id="faq6">
+                    <button class="accordion-button collapsed faq-question" type="button" data-bs-toggle="collapse" data-bs-target="#ans6" aria-expanded="false" aria-controls="ans6">
+                        <span class="me-2">🏢</span> Markamıza özel veya ek özellik talep edebilir miyim?
+                    </button>
+                </h2>
+                <div id="ans6" class="accordion-collapse collapse" aria-labelledby="faq6" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Elbette! Kurumsal paketlerde <b>size özel entegrasyon</b>, tasarım ve gelişmiş raporlama gibi ek hizmetler sunuyoruz. <a href="mailto:destek@seninsiten.com">İletişime geçin</a>.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer text-center">
+        <div class="container">
+            <div class="brand-title mb-2">Akakçe Fiyat Çekici</div>
+            <div class="mb-2">
+                Rakip analizi ve fiyat karşılaştırmada yeni nesil çözümünüz!
+            </div>
+            <small>
+                © 2025 Fiyat Çekici &nbsp;|&nbsp;
+                <a href="mailto:destek@seninsiten.com" class="text-light text-decoration-underline">destek@seninsiten.com</a> &nbsp;|&nbsp;
+                <a href="https://www.instagram.com/seninmarkan" target="_blank" class="text-light text-decoration-underline">Instagram</a>
+            </small>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showModalImg(imgSrc, caption) {
+          document.getElementById('modalImage').src = imgSrc;
+          document.getElementById('imageModalLabel').textContent = caption;
+        }
+    </script>
+    <!-- Modal (en sonda ki body kapanışından hemen önce olmalı) -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="background: #232851;">
+          <div class="modal-header border-0">
+            <h5 class="modal-title text-warning" id="imageModalLabel"></h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body d-flex justify-content-center align-items-center" style="min-height:370px;">
+            <img id="modalImage" src="" alt="" class="img-fluid rounded shadow" style="max-height:400px; background: #fff;">
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

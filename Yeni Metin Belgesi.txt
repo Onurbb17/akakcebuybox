@@ -1,0 +1,3 @@
+cd Desktop\akakceweb\fiyat_cekici
+venv\Scripts\activate
+>python manage.py runserver

@@ -1,0 +1,303 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Akakçe Fiyat Çekici</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;500;400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #222245;
+            font-family: 'Montserrat', Arial, sans-serif;
+            color: #e5e5f7;
+        }
+        .sidebar {
+            background: linear-gradient(160deg, #23235a 60%, #111123 100%);
+            min-height: 100vh;
+            width: 240px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 99;
+            box-shadow: 2px 0 12px #20204466;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .sidebar .logo {
+            margin: 36px 0 24px 0;
+            font-size: 2.1rem;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+        .sidebar .profile-badge {
+            background: #4444a6;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .sidebar .profile-name {
+            color: #d6d6fa;
+            font-size: 1.08rem;
+            margin-bottom: 28px;
+        }
+        .sidebar .menu-link {
+            color: #b8b8ec;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            padding: 11px 32px;
+            border-radius: 18px;
+            display: block;
+            transition: background .18s, color .18s;
+            margin-bottom: 8px;
+        }
+        .sidebar .menu-link.active, .sidebar .menu-link:hover {
+            background: linear-gradient(90deg, #8e2de2 0%, #4a00e0 100%);
+            color: #fff;
+        }
+        .sidebar .logout-link {
+            margin-top: auto;
+            margin-bottom: 32px;
+            color: #fffb;
+            font-size: 1rem;
+        }
+        .main-content {
+            margin-left: 248px;
+            padding: 38px 24px 44px 24px;
+            min-height: 100vh;
+        }
+        .main-card {
+            background: #27274a;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(60,30,120,0.14);
+            padding: 42px 35px 36px 35px;
+            max-width: 970px;
+            margin: auto;
+        }
+        .category-tabs .nav-link {
+            padding: 10px 18px;
+            border-radius: 20px 20px 0 0;
+            font-weight: 600;
+            color: #aed5ff;
+            margin-right: 7px;
+            background: transparent;
+            border: none;
+        }
+        .category-tabs .nav-link.active {
+            background: linear-gradient(90deg, #8e2de2 0%, #4a00e0 100%);
+            color: #fff !important;
+            border: none;
+        }
+        .category-action-btn {
+            background: #312a49;
+            color: #a7a2f7;
+            border: 1px solid #423f6a;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .category-action-btn:hover {
+            background: #8e2de2;
+            color: #fff;
+        }
+        .list-title {
+            font-weight: 600;
+            color: #a7a2f7;
+            margin-bottom: 7px;
+        }
+        .list-group-item {
+            background: #23235a;
+            color: #e5e5f7;
+            border: none;
+            margin-bottom: 3px;
+        }
+        .remove-link-btn {
+            color: #ff5f5f;
+            border: none;
+            background: none;
+            font-size: 1.15rem;
+        }
+        .remove-link-btn:hover {
+            color: #e90000;
+            background: #402;
+            border-radius: 50%;
+        }
+        .excel-btn {
+            background: linear-gradient(90deg, #8e2de2 0%, #4a00e0 100%);
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 12px 38px;
+            border-radius: 24px;
+        }
+        .excel-btn:hover {
+            box-shadow: 0 4px 18px #8e2de277;
+            background: linear-gradient(270deg, #4a00e0 0%, #8e2de2 100%);
+        }
+        .alert-info {
+            background: #23235a;
+            color: #aad4ff;
+            border: none;
+        }
+        .eslesme-label { font-size: 1.07rem;}
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <div class="logo">FiyatÇek</div>
+    <div class="profile-badge">
+        {% if user.first_name %}{{ user.first_name|first|upper }}{% else %}{{ user.username|first|upper }}{% endif %}
+    </div>
+    <div class="profile-name">{{ user.get_full_name|default:user.username }}</div>
+    <a href="{% url 'home' %}" class="menu-link">Ana Sayfa</a>
+    <a href="{% url 'fiyat_cek' %}" class="menu-link active">Fiyat Çek</a>
+    <a href="{% url 'profile' %}" class="menu-link">Profilim</a>
+    <a href="{% url 'settings' %}" class="menu-link {% if request.path == '/ayarlar/' %}active{% endif %}">Ayarlar</a>
+    <a href="{% url 'bildirimler' %}" class="menu-link">
+    <span style="font-size:1.3em;">🔔</span> Bildirimler
+    {% if okunmamis_bildirim_sayisi > 0 %}
+        <span style="color:#ff0; font-weight:bold;">({{ okunmamis_bildirim_sayisi }})</span>
+    {% endif %}
+</a>
+    <a href="{% url 'logout' %}" class="logout-link">Çıkış Yap</a>
+</div>
+<div class="main-content">
+    <div class="main-card">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h2 class="fw-bold" style="color:#c7bfff;">Akakçe Fiyat Çekici</h2>
+            <div class="top-actions">
+                <button class="category-action-btn" type="button" onclick="showAddCategoryModal()">+ Kategori Ekle</button>
+                <form method="post" style="display:inline;">
+                    {% csrf_token %}
+                    {% if aktif_kategori %}
+                    <input type="hidden" name="sil_kategori_id" value="{{ aktif_kategori.id }}">
+                    <button class="category-action-btn" name="sil_kategori" type="submit" onclick="return confirm('Kategori silinsin mi?')">Kategori Sil</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        <ul class="nav category-tabs mb-3" id="kategoriTablari" role="tablist">
+            {% if kategoriler|length > 0 %}
+                {% for kategori in kategoriler %}
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link {% if aktif_kategori and kategori.id == aktif_kategori.id %}active{% endif %}" href="?kategori={{ kategori.id }}">{{ kategori.isim }}</a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="nav-item text-muted">Kategori yok.</li>
+            {% endif %}
+        </ul>
+        <div class="tab-content" id="kategoriTabContent">
+            {% if aktif_kategori %}
+            <div class="tab-pane fade show active" id="tabpane-{{ aktif_kategori.id }}" role="tabpanel">
+                <div class="mb-3 d-flex align-items-center">
+                    <button class="category-action-btn" type="button"
+                        onclick="document.getElementById('topluEslesmeForm').toplu_eslesme_dosyasi.click();">
+                        Toplu Eşleşme Yükle
+                    </button>
+                    <form id="topluEslesmeForm" method="post" enctype="multipart/form-data" style="display:none;">
+                        {% csrf_token %}
+                        <input type="file" name="toplu_eslesme_dosyasi" accept=".csv,.xlsx" onchange="this.form.submit()">
+                        <input type="hidden" name="toplu_eslesme_yukle" value="1">
+                    </form>
+                    <span class="ms-3" style="color:#aaf; font-size:0.98rem;">
+                        <strong>Not:</strong> Excel/CSV dosyanızda <b>Akakçe Linki</b> ve <b>Site Linki</b> sütunları olmalı!
+                    </span>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12 mb-2">
+                        <form method="post" class="d-flex flex-wrap gap-2">
+                            {% csrf_token %}
+                            <input type="hidden" name="eslesme_ekle" value="1">
+                            {{ eslesme_form.akakce_link }}
+                            <span style="font-size:1.5rem;color:#8e2de2;">→</span>
+                            {{ eslesme_form.site_link }}
+                            <button class="btn btn-outline-primary fw-bold" style="min-width:110px;" type="submit">Eşleştir</button>
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <div class="list-title">Eşleşmiş Ürünler ({{ eslesmeler|length }})</div>
+                    <ul class="list-group mb-3">
+                        {% for eslesme in eslesmeler %}
+                        <li class="list-group-item">
+                            <div>
+                                <span class="eslesme-label text-warning">Akakçe:</span>
+                                <a href="{{ eslesme.akakce_link }}" target="_blank" style="color:#aed5ff;word-break:break-all;">{{ eslesme.akakce_link }}</a>
+                            </div>
+                            <div>
+                                <span class="eslesme-label text-success">Siteniz:</span>
+                                {% if eslesme.site_link %}
+                                <a href="{{ eslesme.site_link }}" target="_blank" style="color:#b8ffb8;word-break:break-all;">{{ eslesme.site_link }}</a>
+                                {% else %}
+                                <span class="text-muted">Henüz eşleşmedi</span>
+                                {% endif %}
+                            </div>
+                            <form method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="eslesme_sil_id" value="{{ eslesme.id }}">
+                                <button class="btn btn-sm btn-outline-danger" name="eslesme_sil" type="submit">Sil</button>
+                            </form>
+                        </li>
+                        {% empty %}
+                        <li class="list-group-item text-muted">Henüz eşleşme yok.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="fiyatlari_cek" value="1">
+                    <button class="excel-btn w-100 mt-2" type="submit">Fiyatları Çek ve Excel Olarak İndir</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-info mt-4">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<!-- Kategori ekleme modalı -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" class="modal-content">
+        {% csrf_token %}
+        <div class="modal-header">
+            <h5 class="modal-title" id="addCategoryLabel">Yeni Kategori Ekle</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+        </div>
+        <div class="modal-body">
+            <input type="text" class="form-control" name="isim" placeholder="Kategori adı..." required>
+            <input type="hidden" name="ekle_kategori" value="1">
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" name="kategori_ekle">Ekle</button>
+        </div>
+    </form>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function showAddCategoryModal() {
+        var myModal = new bootstrap.Modal(document.getElementById('addCategoryModal'));
+        myModal.show();
+    }
+</script>
+</body>
+</html>
