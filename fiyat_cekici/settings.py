@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'fiyat_cekme',
-    'captcha',  # <-- Bunu mutlaka ekle!
+    'captcha',  
 ]
 
 MIDDLEWARE = [
