@@ -10,7 +10,7 @@ from openpyxl import load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment
 import tempfile
 from django.http import FileResponse
-from ratelimit.decorators import ratelimit
+from django_ratelimit.decorators import ratelimit
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
